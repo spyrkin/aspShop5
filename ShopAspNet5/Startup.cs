@@ -30,17 +30,20 @@ namespace ShopAspNet5
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRouting();
+
+            //без этой хрени маршрутизация работать не будет
+            //и она задает как тут зажается маршрутизация
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapGet("/", async context =>
+            //    {
+            //        await context.Response.WriteAsync("Hello World!");
+            //    });
+            //});
         }
     }
 }
