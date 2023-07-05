@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ShopAspNet5.Interfaces
 {
-    interface ICarsCategory
+    public interface ICarsCategory
     {
         IEnumerable<Category> AllCategories { get; }
 
