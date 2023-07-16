@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShopAspNet5.Interfaces;
 using ShopAspNet5.mocks;
+using ShopAspNet5.Models;
 using ShopAspNet5.Repository;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,14 @@ namespace ShopAspNet5
             //services.AddTransient<ICarsCategory, MockCategory>();
             services.AddTransient<IAllCars, CarRepository>();
             services.AddTransient<ICarsCategory, CategoryRepository>();
+
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShopCart.GetCart(sp));
+
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +58,7 @@ namespace ShopAspNet5
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();
 
             //без этой хрени маршрутизация работать не будет
             //и она задает как тут зажается маршрутизация

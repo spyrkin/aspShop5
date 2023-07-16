@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopAspNet5.Models;
-
-
+using ShopAspNet5.Modelss;
 
 namespace ShopAspNet5
 {
@@ -15,6 +14,9 @@ namespace ShopAspNet5
 
         public DbSet<Car> Car { get; set; }
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<ShopCartItem> ShopCartItem { get; set; }
+
 
     }
 }
