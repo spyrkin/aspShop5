@@ -65,7 +65,13 @@ namespace ShopAspNet5
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute("categoryFilter", "Car/{action}/{category?}", defaults: new { Controller = "Car", action = "List" });
+
+
             });
+
+ 
+
             //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapGet("/", async context =>

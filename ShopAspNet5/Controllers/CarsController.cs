@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShopAspNet5.Interfaces;
+using ShopAspNet5.Models;
 using ShopAspNet5.ViewModels;
 
 namespace ShopAspNet5.Controllers
@@ -19,21 +21,41 @@ namespace ShopAspNet5.Controllers
             _allCategories = iCarsCat;
         }
 
-        public ViewResult List()
+        [Route("Cars/List")]
+        [Route("Cars/List/{category}")]
+        public ViewResult List(string category)
         {
+            string _category = category;
+            IEnumerable<Car> cars = null;
+            string currCategory = "";
+            if (string.IsNullOrEmpty(category))
+            {
+                cars = _allCars.Cars.OrderBy(i => i.id);
+            }
+            else
+            {
+                if (string.Equals("electro", category, StringComparison.OrdinalIgnoreCase))
+                {
+                    cars = _allCars.Cars.Where(i => i.Category.categoryName.Equals("Электромобили")).OrderBy(i => i.id);
+                    currCategory = "Электромобили";
+                }
+                else if (string.Equals("fuel", category, StringComparison.OrdinalIgnoreCase))
+                {
+                    cars = _allCars.Cars.Where(i => i.Category.categoryName.Equals("Классические автомобили")).OrderBy(i => i.id);
+                    currCategory = "Классические автомобили";
+                }
+            }
+
+            var carObj = new CarsListViewModel
+            {
+                allCars = cars,
+                currCategory = currCategory
+            };
+
             ViewBag.Title = "Страница с автомобилями";
-            CarsListViewModel obj = new CarsListViewModel();
-            obj.allCars = _allCars.Cars;
-            obj.currCategory = "Автомобили";
-            return View(obj);
-            //return View(obj);
-            //можно просто создать ViewBag - он закинется в шаблон сам
-            //можно осздатить обьект и закинуть в View(obj) - этот обьект потом достанется как @model IEnnumarable<Car>
 
-            //@using ShopAspNet5.ViewModels
-            //@model CarsListViewModel
-            // а можно их и не вызывать - само подхватить походу чет новое
 
+            return View(carObj);
         }
 
 
